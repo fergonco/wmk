@@ -1,0 +1,7 @@
+<script>
+    require.config["utils/resources"] = {
+    	{{#resources}}
+    		"{{name}}":{{{value}}}
+    	{{/resources}}
+    }
+</script>

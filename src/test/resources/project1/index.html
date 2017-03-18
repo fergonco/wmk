@@ -19,15 +19,22 @@
     }
 </script>
 
+<script>
+    require.config["utils/resources"] = {
+    		"pluginA/MyModule":"\u003cdiv\u003e\n\tExample application says: {{text}}\n\u003c/div\u003e"
+    }
+</script>
+
 <script src="node_modules/requirejs/require.js"></script>
 <script>
     require.config({
         paths: {
             "pluginA/MyModule": "pluginA/modules/MyModule",
             "pluginB/MyModule": "pluginB/modules/MyModule",
+            "utils/resources": "utils/modules/resources",
         }
     });
-    require(['pluginA/MyModule','pluginB/MyModule']);
+    require(['pluginA/MyModule','pluginB/MyModule','utils/resources']);
 </script>
 
 

@@ -1,3 +1,4 @@
-define(["pluginB/MyModule", "templates"], function(myModule, templates) {
-	alert(myModule);
+define(["pluginB/MyModule", "utils/resources"], function(myModule, resources) {
+	var html = resources["pluginA/MyModule"].replace("{{text}}", myModule);
+	document.body.innerHTML = html;
 });

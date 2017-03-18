@@ -18,6 +18,7 @@ import org.fergonco.wmk.renderer.components.Favicon;
 import org.fergonco.wmk.renderer.components.OverridesCSS;
 import org.fergonco.wmk.renderer.components.Requirejs;
 import org.fergonco.wmk.renderer.components.RequirejsConf;
+import org.fergonco.wmk.renderer.components.RequirejsResources;
 import org.fergonco.wmk.renderer.components.Stylesheets;
 import org.fergonco.wmk.renderer.components.Title;
 import org.fergonco.wmk.renderer.components.WMKComponentException;
@@ -28,7 +29,7 @@ import com.github.mustachejava.MustacheFactory;
 
 public class Renderer {
 
-	private ArrayList<WMKComponent> components = new ArrayList();
+	private ArrayList<WMKComponent> components = new ArrayList<>();
 
 	public Renderer() {
 		addComponent(new Title());
@@ -36,6 +37,7 @@ public class Renderer {
 		addComponent(new Stylesheets());
 		addComponent(new OverridesCSS());
 		addComponent(new RequirejsConf());
+		addComponent(new RequirejsResources());
 		addComponent(new Requirejs());
 	}
 

@@ -1,0 +1,9 @@
+<script>
+    var require = {
+    	"config" : {
+    		{{#moduleConfigurations}}
+    			"{{name}}" : {{{value}}}
+    		{{/moduleConfigurations}}
+    	}
+    }
+</script>

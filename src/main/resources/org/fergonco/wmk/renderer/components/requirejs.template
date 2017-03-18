@@ -1,0 +1,11 @@
+<script src="{{libraryPath}}"></script>
+<script>
+    require.config({
+        paths: {
+        {{#modules}}
+            "{{{name}}}": "{{{path}}}",
+        {{/modules}}
+        }
+    });
+    require([{{{moduleNames}}}]);
+</script>

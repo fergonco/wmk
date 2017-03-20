@@ -10,7 +10,6 @@ public class OverridesCSS implements WMKComponent {
 
 	@Override
 	public void process(Map<String, Object> data, ProjectFolder projectFolder) throws WMKComponentException {
-		String[] css = projectFolder.find("*/css/*.css");
 		@SuppressWarnings("unchecked")
 		ArrayList<String> stylesheets = (ArrayList<String>) data.get("stylesheets");
 		stylesheets.add("overrides.css");
@@ -18,7 +17,12 @@ public class OverridesCSS implements WMKComponent {
 
 	@Override
 	public String getName() {
-		return "stylesheets";
+		return "overridesCSS";
+	}
+
+	@Override
+	public String[] getDependencies() {
+		return null;
 	}
 
 }

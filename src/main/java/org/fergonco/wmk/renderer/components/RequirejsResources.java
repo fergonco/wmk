@@ -52,4 +52,9 @@ public class RequirejsResources implements WMKComponent {
 		scripts.add(template.render());
 	}
 
+	@Override
+	public String[] getDependencies() {
+		return new String[] { RequirejsConf.singleton.getName() };
+	}
+
 }

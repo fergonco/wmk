@@ -9,6 +9,8 @@ import org.fergonco.wmk.renderer.WMKComponent;
 
 public class Stylesheets implements WMKComponent {
 
+	public static Stylesheets singleton = new Stylesheets();
+	
 	@Override
 	public void process(Map<String, Object> data, ProjectFolder projectFolder) throws WMKComponentException {
 		String[] css = projectFolder.find("*/css/*.css");
@@ -20,6 +22,11 @@ public class Stylesheets implements WMKComponent {
 	@Override
 	public String getName() {
 		return "stylesheets";
+	}
+
+	@Override
+	public String[] getDependencies() {
+		return null;
 	}
 
 }

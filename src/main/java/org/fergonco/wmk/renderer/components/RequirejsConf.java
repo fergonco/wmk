@@ -3,7 +3,6 @@ package org.fergonco.wmk.renderer.components;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +19,8 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
 public class RequirejsConf implements WMKComponent {
+
+	public static RequirejsConf singleton = new RequirejsConf();
 
 	@Override
 	public String getName() {
@@ -50,6 +51,11 @@ public class RequirejsConf implements WMKComponent {
 		@SuppressWarnings("unchecked")
 		ArrayList<String> scripts = (ArrayList<String>) data.get("scripts");
 		scripts.add(template.render());
+	}
+
+	@Override
+	public String[] getDependencies() {
+		return new String[] { Requirejs.singleton.getName() };
 	}
 
 }

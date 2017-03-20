@@ -26,4 +26,9 @@ public class Title implements WMKComponent {
 		return "title";
 	}
 
+	@Override
+	public String[] getDependencies() {
+		return null;
+	}
+
 }

@@ -10,4 +10,6 @@ public interface WMKComponent {
 
 	void process(Map<String, Object> data, ProjectFolder projectFolder) throws WMKComponentException;
 
+	String[] getDependencies();
+
 }

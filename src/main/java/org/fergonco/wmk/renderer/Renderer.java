@@ -12,7 +12,8 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.fergonco.wmk.renderer.components.Favicon;
 import org.fergonco.wmk.renderer.components.OverridesCSS;
@@ -30,11 +31,12 @@ import com.github.mustachejava.MustacheFactory;
 public class Renderer {
 
 	private ArrayList<WMKComponent> components = new ArrayList<>();
+	private HashMap<String, WMKComponent> nameComponent = new HashMap<>();
 
 	public Renderer() {
 		addComponent(new Title());
 		addComponent(new Favicon());
-		addComponent(new Stylesheets());
+		addComponent(Stylesheets.singleton);
 		addComponent(new OverridesCSS());
 		addComponent(new RequirejsConf());
 		addComponent(new RequirejsResources());
@@ -43,19 +45,24 @@ public class Renderer {
 
 	private void addComponent(WMKComponent component) {
 		components.add(component);
+		nameComponent.put(component.getName(), component);
 	}
 
 	public void render(File root, OutputStream out, String... componentNames)
 			throws NoSuchComponentException, IOException, WMKComponentException {
+		Set<String> selectedComponents = completeWithDependencies(componentNames);
 		ProjectFolder folder = new ProjectFolder(root);
 		HashMap<String, Object> templateData = new HashMap<>();
 		templateData.put("scripts", new ArrayList<String>());
 		templateData.put("stylesheets", new ArrayList<String>());
-		List<String> selectedComponents = Arrays.asList(componentNames);
 		for (WMKComponent component : components) {
 			if (selectedComponents.contains(component.getName())) {
 				component.process(templateData, folder);
+				selectedComponents.remove(component.getName());
 			}
+		}
+		if (selectedComponents.size() > 0) {
+			throw new NoSuchComponentException(selectedComponents.iterator().next());
 		}
 		Writer writer = new OutputStreamWriter(out);
 		MustacheFactory mf = new DefaultMustacheFactory();
@@ -65,6 +72,31 @@ public class Renderer {
 		mustache.execute(writer, templateData);
 		writer.flush();
 		template.close();
+	}
+
+	private Set<String> completeWithDependencies(String[] componentNames) throws NoSuchComponentException {
+		HashSet<String> ret = new HashSet<>();
+		while (componentNames.length > 0) {
+			ArrayList<String> newComponentNames = new ArrayList<>();
+			for (String componentName : componentNames) {
+				ret.add(componentName);
+				WMKComponent component = nameComponent.get(componentName);
+				if (component == null) {
+					throw new NoSuchComponentException(componentName);
+				} else {
+					String[] names = component.getDependencies();
+					if (names != null) {
+						for (String dependencyName : names) {
+							ret.add(dependencyName);
+							newComponentNames.add(dependencyName);
+						}
+					}
+				}
+			}
+			componentNames = newComponentNames.toArray(new String[newComponentNames.size()]);			
+		}
+
+		return ret;
 	}
 
 	public static void main(String[] args) throws Exception {

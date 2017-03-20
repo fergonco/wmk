@@ -30,4 +30,9 @@ public class Favicon implements WMKComponent {
 		return "favicon";
 	}
 
+	@Override
+	public String[] getDependencies() {
+		return null;
+	}
+
 }

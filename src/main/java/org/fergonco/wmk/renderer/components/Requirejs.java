@@ -1,7 +1,6 @@
 package org.fergonco.wmk.renderer.components;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +10,8 @@ import org.fergonco.wmk.renderer.WMKComponent;
 
 public class Requirejs implements WMKComponent {
 
+	public static Requirejs singleton = new Requirejs();
+	
 	@Override
 	public String getName() {
 		return "requirejs";
@@ -43,6 +44,11 @@ public class Requirejs implements WMKComponent {
 		@SuppressWarnings("unchecked")
 		ArrayList<String> scripts = (ArrayList<String>) data.get("scripts");
 		scripts.add(template.render());
+	}
+
+	@Override
+	public String[] getDependencies() {
+		return null;
 	}
 
 }
